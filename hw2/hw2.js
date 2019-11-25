@@ -35,12 +35,23 @@ const productName = (price <= max  && price >= min ) ? console.log(product.name)
 
 //Cделать новую строку, где каждое слово начинается с большой буквы, а пробелы удалены. Использовать цикл for.
 const string = 'JavaScript is a pretty good language';
+const arr = string.split(' ');
 
-for(let i = 0; i < string.length; i++){
-    
+const resArray = [];
+
+for(let i = 0; i < arr.length; i++){
+
+    // const firstLetter = arr[i].slice(0, 1).toUpperCase();
+    // const lastWold = arr[i].slice(1, arr[i].length);
+    // const result = firstLetter + lastWold;
+    // resArray[i] = result;
+    const result = arr[i].slice(0, 1).toUpperCase() + arr[i].slice(1, arr[i].length);
+   
+    console.log(result.replace('\n', ""));
 }
 
 //Создать функцию, которая принимает массив, а возвращает новый массив с дублированными элементами входного массива:
+
 
 //Создать функцию, которая принимает произвольное (любое) число массивов и удаляет из каждого массива первый элемент, а возвращает массив из оставшихся значений:
 
@@ -52,4 +63,8 @@ for(let i = 0; i < string.length; i++){
 //Создать объект, у которого будет цена товара и его скидка, а также два метода: для получения цены и для расчета цены с учетом скидки:
 
 //Не изменяя функцию или объект, получить результат функции getSquare для объекта sizes
+
+
+
+
 
