@@ -1,4 +1,3 @@
-console.log("2");
 // Дан объект car. Написать условие если поле lastService больше 5 месяцев (из строки нужно достать число) то нужно вывести в консоль сообщение 'Need Repair' и свойство needRepair в объекте car изменить на true; иначе изменить на false.
 const car = {
   name: "Lexus",
@@ -9,7 +8,7 @@ const car = {
 };
 
 let lastService = parseInt(car.lastService);
-console.log(lastService);
+
 if (lastService > 5) {
   console.log("NeedRepair");
   car.needRepair = true;
@@ -48,6 +47,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 
 console.log(resArray.join(""));
+
 //Создать функцию, которая принимает массив, а возвращает новый массив с дублированными элементами входного массива:
 const firstArray = [1, 2, 3];
 const doubleArray = function (arr) {
@@ -60,34 +60,31 @@ console.log(doubleArray(firstArray));
 const arr1 = [1, 2, 3];
 const arr2 = ["a", "b", "c"];
 
-function getNewArr(el) {
+function getNewArr(...a) {
   const newArr = [];
-  return newArr.push(el);
+  return newArr.concat(a);
 }
-// const newArr1 = getNewArr(arr1, arr2);
-// console.log(newArr1);
-console.log(getNewArr(arr1, arr2));
+const newArr = getNewArr(arr1, arr2);
+//console.log(newArr);
 
-// function changeCollection(arr, fn) {
-//   const res = [];
-//   console.log(arr);
-//   for (let i = 0; i < arr.length; i++) {
-//     //console.log(arr);
-//     // let bb = fn(arr[i]);
-//     // console.log(bb);
-//     // res.push(fn[bb]);
-//   }
-//   return res;
-// }
+function changeCollection(arr, fn) {
+  const res = [];
 
-// function delFirstEl(arr) {
-//   for (let i = 0; i < arr.length; i++) {
-//     return arr.splice(1, arr.length);
-//   }
-// }
+  for (let i = 0; i < arr.length; i++) {
+    const el = fn(arr[i]);
+    res.push(el);
+  }
+  return res;
+}
 
-// const asdf = changeCollection(newArr, delFirstEl);
-// console.log(asdf);
+function delFirstEl(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    return arr.splice(1, arr.length);
+  }
+}
+
+const newCollection = changeCollection(newArr, delFirstEl);
+console.log(newCollection);
 
 //Создать функцию которая принимает массив пользователей, поле которое по которому хочу фильтровать, значение на которое хочу фильтровать. Возвращать новый массив с пользователями соответсвующие указанным параметрам.
 const users = [{
@@ -187,7 +184,7 @@ const obj = {};
   console.log(x.b);
 })(obj);
 
-// самовызывающаяся функция, которая в пустом объекте создает поле b со значением 1. x = null удаляется объект тоесть ссылка на объект , в консоле ошибка
+// самовызывающаяся функция, которая в пустом объекте создает поле b со значением 1. x = null удаляется объект тоесть ссылку на объект, в консоле ошибка
 
 //Создать объект, у которого будет цена товара и его скидка, а также два метода: для получения цены и для расчета цены с учетом скидки:
 function getPrice() {
