@@ -31,22 +31,20 @@ const max = 20;
 
 const productName =
   price <= max && price >= min ?
-  console.log(product.name) :
-  console.log("Товар не найден");
+  product.name :
+  "Товар не найден";
+console.log(productName);
 
 //Cделать новую строку, где каждое слово начинается с большой буквы, а пробелы удалены. Использовать цикл for.
 const string = "JavaScript is a pretty good language";
 const arr = string.split(" ");
 
-const resArray = [];
-
 for (let i = 0; i < arr.length; i++) {
-  const result =
-    arr[i].slice(0, 1).toUpperCase() + arr[i].slice(1, arr[i].length);
-  resArray.push(result);
+  const result = arr[i].slice(0, 1).toUpperCase() + arr[i].slice(1, arr[i].length);
+  arr[i] = result;
 }
 
-console.log(resArray.join(""));
+console.log(arr.join(""));
 
 //Создать функцию, которая принимает массив, а возвращает новый массив с дублированными элементами входного массива:
 const firstArray = [1, 2, 3];
@@ -200,8 +198,8 @@ function getPriceDiscount() {
 const prices = {
   price: 10,
   discount: "15%",
-  getPrice: getPrice,
-  getPriceDiscount: getPriceDiscount
+  getPrice,
+  getPriceDiscount
 };
 
 prices.getPrice();
