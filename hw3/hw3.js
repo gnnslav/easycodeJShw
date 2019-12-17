@@ -1,4 +1,3 @@
-console.log(3);
 // На основе массива map и массива users собрать новый массив объектов где в каждом объекте будут только те свойства которые перечислены в массиве map
 const map = ["_id", "name", "isActive", "balance"];
 
@@ -55,17 +54,18 @@ const users = [{
 
 // const [...otherEl] = map;
 // console.log(otherEl);
-// const [_id, name, isActive, balance] = map;
-// console.log(name);
-// console.log(balance);
-// const newUsers = users.map(function (user) {
-//     console.log(user);
-//     const keys = Object.keys(user);
-//     console.log(keys);
-
-//     //return user.key;
-// });
-//console.log(newUsers);
+const [_id, name, isActive, balance] = map;
+console.log(name);
+console.log(balance);
+const keys = Object.keys(users);
+console.log(keys);
+const newUsers = users.map(function (user) {
+    //console.log(user);
+    // const keys = Object.keys(user);
+    // console.log(keys);
+    // return ;
+});
+console.log(newUsers);
 
 // Дан массив объектов, где каждый объект содержит информацию о букве и месте её положения в строке {буква: “a”, позиция_в_предложении: 1}:
 
@@ -144,7 +144,7 @@ const getInfo = (obj) => {
     console.log(result);
 };
 getInfo(organisation);
-//const nameOrganisation = getInfo(organisation);
+
 
 // Сделать так что-бы при получении или изменении свойства name в свойствах lastGet и lastUpdate сохранялась дата последнего получения или последнего обновления соответсвенно. 
 
@@ -153,36 +153,59 @@ const person = {
     age: 30,
     lastGet: '',
     lastUpdate: '',
-    // changeName() {
-    //     if (lastName != this.name) {
-    //         this.lastGet = new Date().toLocaleString();
-    //     } else {
-    //         this.lastGet = new Date().toLocaleString();
-    //     }
-    // }
-};
-const lastName = person.name;
-const lastDate = new Date().toLocaleString();
-
-function changeName(obj) {
-    if (lastName != this.name) {
-        obj.lastGet = lastDate;
+    get data() {
+        const d = new Date().toLocaleString();
+        return (this.lastGet = d);
+    },
+    set data(value) {
+        const lastName = value;
+        if (lastName != this.name) {
+            this.lastGet = JSON.stringify(new Date().toLocaleString());
+        }
     }
-}
-changeName(person);
-console.log(person);
+};
+// const lastName = person.name;
+// const lastDate = new Date().toLocaleString();
 
-
+// function changeName(obj) {
+//     if (lastName != this.name) {
+//         obj.lastGet = JSON.stringify(lastDate);
+//     }
+// }
+// changeName(person);
+// console.log(person);
 
 // Object.defineProperty(person, 'lastGet', {
-//     get: function () {
-//         const time = new Date();
-//         return this.name;
+//     configurable: true,
+//     set: function (lastName) {
+//         if (lastName != person.name) {
+//             person.lastGet = lastDate;
+//         }
 //     }
 // });
+
+console.log(person.lastGet);
+person.name = "N";
+console.log(person.lastGet);
+
 // сделать геттер который будет возвращать brand и model в виде строки "Apple iPhone 7" а также сделать сеттер в который будет передаваться строка например "Samsung S8 Gold" и в объекте в поле brand будет записано "Samsung" а в поле model будет записано "S8 Gold" 
+
 const product = {
     brand: 'Apple',
     model: 'iPhone 7',
-    price: '$300'
+    price: '$300',
+    get prod() {
+        return `${this.brand} ${this.model}`;
+    },
+    set prod(str) {
+        const ind = str.indexOf(' ');
+        this.brand = str.slice(0, ind);
+        this.model = str.slice(ind + 1, str.length);
+    }
 };
+console.log(product);
+console.log(product.prod);
+product.prod = 'Samsung S8 Gold';
+console.log(product.brand);
+console.log(product.model);
+console.log(product.prod);
