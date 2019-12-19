@@ -172,7 +172,6 @@ function getUsers(arr, keyField, keyValue) {
 const selectUsers = getUsers(users, "gender", "male");
 
 console.log(selectUsers);
-
 //Проверить как изменится объект obj и найти объяснение
 const obj = {};
 (function (x) {
