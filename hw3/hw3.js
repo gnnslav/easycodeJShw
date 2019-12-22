@@ -1,8 +1,7 @@
 // На основе массива map и массива users собрать новый массив объектов где в каждом объекте будут только те свойства которые перечислены в массиве map
 const map = ["_id", "name", "isActive", "balance"];
 
-const users = [
-  {
+const users = [{
     _id: "5d220b10e8265cc978e2586b",
     isActive: true,
     balance: 2853.33,
@@ -58,8 +57,7 @@ console.log(newUsers);
 
 // Дан массив объектов, где каждый объект содержит информацию о букве и месте её положения в строке {буква: “a”, позиция_в_предложении: 1}:
 
-const array = [
-  {
+const array = [{
     char: "a",
     index: 12
   },
@@ -153,11 +151,11 @@ const person = {
   time: new Date().toLocaleString(),
   get name() {
     this.lastGet = this.time;
-    return this.name;
+    return this.displayName;
   },
   set name(value) {
     this.lastUpdate = new Date().toLocaleString();
-    this.name = value;
+    this.displayName = value;
   }
 };
 
