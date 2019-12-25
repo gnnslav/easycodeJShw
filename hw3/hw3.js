@@ -169,9 +169,9 @@ const product = {
     return `${this.brand} ${this.model}`;
   },
   set prod(str) {
-    const indx = str.indexOf(" ");
-    this.brand = str.slice(0, indx);
-    this.model = str.slice(indx + 1, str.length);
+    const [name, ...otherName] = str.split(" ");
+    this.brand = name;
+    this.model = otherName;
   }
 };
 product.prod = "Samsung S8 Gold";
