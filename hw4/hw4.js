@@ -43,11 +43,11 @@ const tasks = [{
   const inputBody = form.elements.body;
   const containerBtn = document.querySelector(".container-btn");
   const conteinerMsg = document.querySelector(".conteiner-msg");
-  const newSortedTasks = (sortedTasks) ? sortedTasks.filter(task => task.completed === true) : sortedTasks;
+  // const newSortedTasks = (sortedTasks) ? sortedTasks.filter(task => task.completed === true) : sortedTasks;
 
-  console.log(newSortedTasks);
+  // console.log(newSortedTasks);
   //renderAllTasks(objOfTasks);
-  renderAllTasks(newSortedTasks);
+  renderAllTasks(sortedTasks);
   form.addEventListener("submit", onFormSubmit);
   container.addEventListener("click", onDelete);
   container.addEventListener("click", onComplete);
@@ -191,7 +191,7 @@ const tasks = [{
       // const completedTasks = Object.values(objOfTasks).filter(
       //   task => task.completed === true
       // );
-      renderAllTasks(newSortedTasks);
+      renderAllTasks(sortedTasks.filter(task => task.completed === true));
     }
   }
 
