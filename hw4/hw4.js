@@ -23,14 +23,13 @@ const tasks = [{
     title: "Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum."
   }
 ];
-const tasks1 = [];
 const STATE = {
   SHOW_ALL: 0,
   SHOW_UNCOMPLETED: 1
 };
 
 (function (arrOfTasks) {
-  let bgCol = "#007bff4f";
+  let itemBgColor = "#007bff4f";
   const objOfTasks = arrOfTasks.reduce((accumulator, task) => {
     accumulator[task._id] = task;
     return accumulator;
@@ -44,8 +43,7 @@ const STATE = {
 
   renderTasks(STATE.SHOW_ALL);
   form.addEventListener("submit", onFormSubmit);
-  container.addEventListener("click", onDelete);
-  container.addEventListener("click", onComplete);
+  container.addEventListener("click", containerTaskHandler);
   containerBtn.addEventListener("click", containerBtnHandler);
 
   function renderTasks(state) {
@@ -59,12 +57,15 @@ const STATE = {
         }
       })
       .filter(task => (state ? !task.completed : task));
+    emptyArr(taskList);
+    templateTasks(taskList);
+  }
 
-    if (taskList.length === 0) {
+  function emptyArr(arr) {
+    if (arr.length === 0) {
       conteinerMsg.innerHTML = "";
       renderMsg("Массив с задачами пустой");
     }
-    templateTasks(taskList);
   }
 
   function templateTasks(taskList) {
@@ -73,7 +74,7 @@ const STATE = {
     taskList.forEach(function (task) {
       const li = templateLi(task);
       if (task.completed) {
-        li.style.backgroundColor = bgCol;
+        li.style.backgroundColor = itemBgColor;
       }
       fragment.appendChild(li);
     });
@@ -167,31 +168,27 @@ const STATE = {
     delete objOfTasks[id];
   }
 
-  function onDelete(e) {
-    if (e.target.classList.contains("delete-btn")) {
-      const parent = e.target.closest("[data-task-id]");
-      const id = parent.dataset.taskId;
-      delTask(id);
-      parent.remove();
-    }
-  }
-
   function completedTasks(id, el) {
     if (!objOfTasks[id].completed) {
       objOfTasks[id].completed = true;
-      el.style.backgroundColor = bgCol;
+      el.style.backgroundColor = itemBgColor;
     } else {
       objOfTasks[id].completed = false;
       el.style.backgroundColor = "";
     }
   }
 
-  function onComplete(e) {
+  function containerTaskHandler(e) {
+    const parent = e.target.closest("[data-task-id]");
+    const id = parent.dataset.taskId;
     if (e.target.classList.contains("complete-btn")) {
-      const parent = e.target.closest("[data-task-id]");
-      const id = parent.dataset.taskId;
       completedTasks(id, parent);
     }
+    if (e.target.classList.contains("delete-btn")) {
+      delTask(id);
+      parent.remove();
+    }
+
   }
 
   function containerBtnHandler(e) {
