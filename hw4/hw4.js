@@ -205,7 +205,9 @@ const tasks = [{
   }
 
   function containerBtnHandler(e) {
+    emptyArrMsg(Object.values(objOfTasks));
     if (e.target.classList.contains("all-tasks")) {
+
       const sortItems = sortItem(objOfTasks);
       templateTasks(sortItems);
     }
@@ -215,7 +217,6 @@ const tasks = [{
       );
       templateTasks(unCompletedTasks);
     }
-    emptyArrMsg(Object.values(objOfTasks));
   }
 
   // function containerBtnHandler(e) {
