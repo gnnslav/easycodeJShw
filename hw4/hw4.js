@@ -23,17 +23,17 @@ const tasks = [{
     title: "Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum."
   }
 ];
-const STATE = {
-  SHOW_ALL: 0,
-  SHOW_UNCOMPLETED: 1
-};
-
+// const STATE = {
+//   SHOW_ALL: 0,
+//   SHOW_UNCOMPLETED: 1
+// };
 (function (arrOfTasks) {
   let itemBgColor = "#007bff4f";
   const objOfTasks = arrOfTasks.reduce((accumulator, task) => {
     accumulator[task._id] = task;
     return accumulator;
   }, {});
+  const sortedTasks = sortItem(arrOfTasks);
   const container = document.querySelector(".container .list-group");
   const form = document.forms.addTask;
   const inputTitle = form.elements.title;
@@ -41,31 +41,44 @@ const STATE = {
   const containerBtn = document.querySelector(".container-btn");
   const conteinerMsg = document.querySelector(".conteiner-msg");
 
-  renderTasks(STATE.SHOW_ALL);
+  templateTasks(sortedTasks);
   form.addEventListener("submit", onFormSubmit);
   container.addEventListener("click", containerTaskHandler);
   containerBtn.addEventListener("click", containerBtnHandler);
+  emptyArrMsg(Object.values(objOfTasks));
 
-  function renderTasks(state) {
-    const taskList = Object.values(objOfTasks)
-      .sort(function (a, b) {
-        if (a.completed < b.completed) {
-          return -1;
-        }
-        if (a.completed > b.completed) {
-          return 1;
-        }
-      })
-      .filter(task => (state ? !task.completed : task));
-    emptyArr(taskList);
-    templateTasks(taskList);
-  }
+  // function renderTasks(state) {
+  //   const taskList = Object.values(objOfTasks)
+  //     .sort(function (a, b) {
+  //       if (a.completed < b.completed) {
+  //         return -1;
+  //       }
+  //       if (a.completed > b.completed) {
+  //         return 1;
+  //       }
+  //     })
+  //     .filter(task => (state ? !task.completed : task));
+  //   emptyArrMsg(taskList);
+  //   templateTasks(taskList);
+  // }
 
-  function emptyArr(arr) {
-    if (arr.length === 0) {
+  function emptyArrMsg(arr) {
+    if (arr.length == 0) {
       conteinerMsg.innerHTML = "";
       renderMsg("Массив с задачами пустой");
     }
+  }
+
+  function sortItem(obj) {
+    const arr = Object.values(obj);
+    return arr.sort(function (a, b) {
+      if (a.completed < b.completed) {
+        return -1;
+      }
+      if (a.completed > b.completed) {
+        return 1;
+      }
+    });
   }
 
   function templateTasks(taskList) {
@@ -146,6 +159,7 @@ const STATE = {
     const task = createNewTask(titleValue, bodyValue);
     const listItem = templateLi(task);
     container.insertAdjacentElement("afterbegin", listItem);
+    arrOfTasks.push(task);
     form.reset();
   }
 
@@ -188,15 +202,28 @@ const STATE = {
       delTask(id);
       parent.remove();
     }
-
   }
 
   function containerBtnHandler(e) {
     if (e.target.classList.contains("all-tasks")) {
-      renderTasks(STATE.SHOW_ALL);
+      const sortItems = sortItem(objOfTasks);
+      templateTasks(sortItems);
     }
     if (e.target.classList.contains("completed-tasks")) {
-      renderTasks(STATE.SHOW_UNCOMPLETED);
+      const unCompletedTasks = Object.values(objOfTasks).filter(
+        task => !task.completed
+      );
+      templateTasks(unCompletedTasks);
     }
+    emptyArrMsg(Object.values(objOfTasks));
   }
+
+  // function containerBtnHandler(e) {
+  //   if (e.target.classList.contains("all-tasks")) {
+  //     renderTasks(STATE.SHOW_ALL);
+  //   }
+  //   if (e.target.classList.contains("completed-tasks")) {
+  //     renderTasks(STATE.SHOW_UNCOMPLETED);
+  //   }
+  // }
 })(tasks);
