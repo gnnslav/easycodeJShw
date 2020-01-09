@@ -81,6 +81,13 @@ const tasks = [{
     });
   }
 
+  function filterItem(obj) {
+    const arr = Object.values(obj);
+    return arr.filter(
+      task => !task.completed
+    );
+  }
+
   function templateTasks(taskList) {
     container.innerHTML = "";
     const fragment = document.createDocumentFragment();
@@ -212,9 +219,7 @@ const tasks = [{
       templateTasks(sortItems);
     }
     if (e.target.classList.contains("completed-tasks")) {
-      const unCompletedTasks = Object.values(objOfTasks).filter(
-        task => !task.completed
-      );
+      const unCompletedTasks = filterItem(objOfTasks);
       templateTasks(unCompletedTasks);
     }
   }
