@@ -37,7 +37,7 @@ function renderUsers(response) {
   removeLoader();
   const userList = response;
   const fragment = document.createDocumentFragment();
-  userList.forEach(function(user) {
+  userList.forEach(function (user) {
     const li = templateItem(user);
     fragment.appendChild(li);
   });
@@ -183,13 +183,14 @@ function createNewUser(
 function showLoader() {
   const loader = document.querySelector(".loader");
   const div = document.createElement("div");
-  div.classList.add("d-flex", "justify-content-center");
-  div.innerHTML = `<div class="spinner-border text-primary" role="status"></div>`;
+  div.classList.add("progress");
+  div.innerHTML = `<div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>`;
   loader.appendChild(div);
   titleHw.classList.add("d-none");
   formSection.classList.add("d-none");
   containerUsers.classList.add("d-none");
 }
+
 
 function removeLoader() {
   const loader = document.querySelector(".loader");
