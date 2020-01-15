@@ -2,7 +2,6 @@ const containerUsers = document.querySelector(".container-users");
 const formSection = document.querySelector(".form-section");
 const titleHw = document.querySelector(".title-hw");
 const url = "https://jsonplaceholder.typicode.com/users";
-showLoader();
 const form = document.forms.addUser;
 const inputName = form.elements.name;
 const inputUsername = form.elements.username;
@@ -14,6 +13,7 @@ form.addEventListener("submit", onFormSubmit);
 containerUsers.addEventListener("click", containerHandler);
 
 function getUser(url, cb) {
+  showLoader();
   try {
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url);
@@ -23,18 +23,18 @@ function getUser(url, cb) {
         return;
       }
       const response = JSON.parse(xhr.responseText);
-      console.log(response);
       cb(response);
+      removeLoader();
     });
     xhr.addEventListener("error", () => console.log(error));
     xhr.send();
   } catch (error) {
     cb(error);
+    removeLoader();
   }
 }
 
 function renderUsers(response) {
-  removeLoader();
   const userList = response;
   const fragment = document.createDocumentFragment();
   userList.forEach(function (user) {
@@ -54,6 +54,7 @@ function containerHandler(e) {
 getUser(url, renderUsers);
 
 function createUser(url, body, cb) {
+  showLoader();
   try {
     const xhr = new XMLHttpRequest();
     xhr.open("POST", url);
@@ -64,6 +65,7 @@ function createUser(url, body, cb) {
       }
       const response = JSON.parse(xhr.responseText);
       cb(response);
+      removeLoader();
     });
     xhr.addEventListener("error", () => {
       cb(`Error.status code: ${xhr.status}`, xhr);
@@ -74,6 +76,7 @@ function createUser(url, body, cb) {
     xhr.send(JSON.stringify(body));
   } catch (error) {
     cb(error);
+    removeLoader();
   }
 }
 
@@ -85,13 +88,6 @@ function onFormSubmit(e) {
   const emailValue = inputEmail.value;
   const phoneValue = inputPhone.value;
   const websiteValue = inputWebsite.value;
-  const newUserObj = createNewUser(
-    nameValue,
-    usernameValue,
-    emailValue,
-    phoneValue,
-    websiteValue
-  );
 
   if (
     !nameValue ||
@@ -102,6 +98,15 @@ function onFormSubmit(e) {
   ) {
     return;
   }
+
+  const newUserObj = createNewUser(
+    nameValue,
+    usernameValue,
+    emailValue,
+    phoneValue,
+    websiteValue
+  );
+
   createUser(url, newUserObj, response => {
     const userNewCard = templateItem(response);
     containerUsers.insertAdjacentElement("afterbegin", userNewCard);
@@ -128,7 +133,7 @@ function templateItem(item) {
 
   const divContainer = document.createElement("div");
   divContainer.classList.add("card", "d-none");
-  ////////////////
+
   const listItem = document.createElement("ul");
   listItem.classList.add("list-group");
 
@@ -186,18 +191,11 @@ function showLoader() {
   div.classList.add("progress");
   div.innerHTML = `<div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>`;
   loader.appendChild(div);
-  titleHw.classList.add("d-none");
-  formSection.classList.add("d-none");
-  containerUsers.classList.add("d-none");
 }
 
-
 function removeLoader() {
-  const loader = document.querySelector(".loader");
+  const loader = document.querySelector(".progress");
   if (loader) {
     loader.remove();
   }
-  titleHw.classList.add("d-block");
-  formSection.classList.add("d-block");
-  containerUsers.classList.add("d-block");
 }
