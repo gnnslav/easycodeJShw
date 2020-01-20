@@ -1,71 +1,74 @@
 // Custom Http Module
-function customHttp() {
-  return {
-    get(url, cb) {
-      try {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        xhr.addEventListener('load', () => {
-          if (Math.floor(xhr.status / 100) !== 2) {
-            cb(`Error. Status code: ${xhr.status}`, xhr);
-            return;
-          }
-          const response = JSON.parse(xhr.responseText);
-          cb(null, response);
-        });
-
-        xhr.addEventListener('error', () => {
-          cb(`Error. Status code: ${xhr.status}`, xhr);
-        });
-
-        xhr.send();
-      } catch (error) {
-        cb(error);
-      }
-    },
-    post(url, body, headers, cb) {
-      try {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', url);
-        xhr.addEventListener('load', () => {
-          if (Math.floor(xhr.status / 100) !== 2) {
-            cb(`Error. Status code: ${xhr.status}`, xhr);
-            return;
-          }
-          const response = JSON.parse(xhr.responseText);
-          cb(null, response);
-        });
-
-        xhr.addEventListener('error', () => {
-          cb(`Error. Status code: ${xhr.status}`, xhr);
-        });
-
-        if (headers) {
-          Object.entries(headers).forEach(([key, value]) => {
-            xhr.setRequestHeader(key, value);
-          });
+const http = {
+  get: async function (url) {
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      removeLoader();
+      return data;
+    } catch (err) {
+      throw new Error('error' + response.statusText);
+    }
+  },
+  delPost: async function (id) {
+    try {
+      const response = await fetch(url + "/" + id);
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      throw new Error('error' + response.statusText);
+    }
+  },
+  postPost: async function (data) {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
         }
-
-        xhr.send(JSON.stringify(body));
-      } catch (error) {
-        cb(error);
-      }
-    },
-  };
-}
-// Init http module
-const http = customHttp();
+      });
+      const json = await response.json();
+      return json;
+    } catch (err) {
+      throw new Error('error' + response.statusText);
+    }
+  },
+  putPost: async function (id, data) {
+    try {
+      const response = await fetch(url + "/" + id, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      });
+      const json = await response.json();
+      return json;
+    } catch (err) {
+      throw new Error('error' + response.statusText);
+    }
+  }
+};
 
 const newsService = (function () {
   const apiKey = '0623cb4470244103bdbd5ead23c1094f';
   const apiUrl = 'https://newsapi.org/v2';
 
   return {
-    topHeadlines(country, category, cb) {
-      http.get(`${apiUrl}/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`, cb);
+    topHeadlines(country, category) {
+      const url = `${apiUrl}/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`;
+      http.get(url).then(news => renderNews(news.articles));
     },
-    everything(query, cb) {
-      http.get(`${apiUrl}/everything?q=${query}&apiKey=${apiKey}`, cb);
+    everything(query) {
+      url = `${apiUrl}/everything?q=${query}&apiKey=${apiKey}`;
+      http.get(url).then(news => {
+        if (!news.articles.length) {
+          showMsg('Ничего не найдено');
+          return;
+        }
+        renderNews(news.articles);
+      });
     }
   };
 })();
@@ -96,24 +99,11 @@ function loadNews() {
   const category = selectCategory.value;
   const searchNews = inputSearch.value;
   if (!searchNews) {
-    newsService.topHeadlines(country, category, onGetResponse);
+    newsService.topHeadlines(country, category);
   } else {
-    newsService.everything(searchNews, onGetResponse);
+    newsService.everything(searchNews);
   }
 
-}
-
-function onGetResponse(err, res) {
-  removeLoader();
-  if (err) {
-    showMsg(err, 'msg');
-    return;
-  }
-  if (!res.articles.length) {
-    showMsg('Ничего не найдено');
-    return;
-  }
-  renderNews(res.articles);
 }
 
 function renderNews(news) {
@@ -123,7 +113,6 @@ function renderNews(news) {
   }
   let div = '';
   news.forEach((item) => {
-    console.log(item);
     div += templateOneNews(item);
   });
   conteinerNews.insertAdjacentHTML('afterbegin', div);

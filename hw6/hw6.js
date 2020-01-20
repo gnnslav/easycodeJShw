@@ -1,64 +1,61 @@
 const containerPosts = document.querySelector(".container-posts");
 const url = "https://jsonplaceholder.typicode.com/posts";
 const form = document.forms.addPost;
-const inputTitle = form.elements.title;
-const inputText = form.elements.body;
 form.addEventListener("submit", onFormSubmit);
 containerPosts.addEventListener("click", containerBtnHandler);
 
-const httpService = {
+const http = {
   getPost: async function () {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      throw new Error('error' + response.statusText);
+    }
   },
   delPost: async function (id) {
-    const response = await fetch(url + "/" + id);
-    const data = await response.json();
-    return data;
+    try {
+      const response = await fetch(url + "/" + id);
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      throw new Error('error' + response.statusText);
+    }
   },
   postPost: async function (data) {
-    const response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    });
-    const json = await response.json();
-    return json;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      });
+      const json = await response.json();
+      return json;
+    } catch (err) {
+      throw new Error('error' + response.statusText);
+    }
   },
   putPost: async function (id, data) {
-    const response = await fetch(url + "/" + id, {
-      method: "PUT",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    });
-    const json = await response.json();
-    return json;
+    try {
+      const response = await fetch(url + "/" + id, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      });
+      const json = await response.json();
+      return json;
+    } catch (err) {
+      throw new Error('error' + response.statusText);
+    }
   }
 };
-// function postsService(url, method, data) {
-//     return fetch(url, {
-//             method: method,
-//             headers: {
-//                 "Content-type": "application/json; charset=UTF-8"
-//             },
-//             body: data
-//         })
-//         .then(response => {
-//             if (response.ok) {
-//                 return response.json();
-//             }
-//         })
-//         .catch(err => console.log(err));
-// }
 
-// postsService(url, 'GET')
-//     .then(post => renderPosts(post));
-httpService.getPost().then(post => renderPosts(post));
+http.getPost().then(post => renderPosts(post));
 
 function renderPosts(response) {
   const postList = response;
@@ -97,86 +94,42 @@ function createNewPost(title, body) {
   return postObj;
 }
 
-// function onFormSubmit(e) {
-//     e.preventDefault();
-
-//     const titleValue = inputTitle.value;
-//     const textValue = inputText.value;
-
-//     if (!titleValue || !textValue) {
-//         return;
-//     }
-//     const newPostObj = createNewPost(
-//         titleValue,
-//         textValue
-//     );
-//     postsService(url, 'POST', JSON.stringify(newPostObj))
-//         .then(post => {
-//             const newPost = templateItem(post);
-//             containerPosts.insertAdjacentElement("afterbegin", newPost);
-//         });
-//     form.reset();
-// }
-function onFormSubmit(e) {
-  e.preventDefault();
-
-  const titleValue = inputTitle.value;
-  const textValue = inputText.value;
-
-  if (!titleValue || !textValue) {
+function newPost(inputTitle, inputText) {
+  if (!inputTitle || !inputText || !inputTitle.value || !inputText.value) {
     return;
   }
-  const newPostObj = createNewPost(titleValue, textValue);
+  const newPostObj = createNewPost(inputTitle.value, inputText.value);
+  return newPostObj;
+}
 
-  httpService.postPost(newPostObj).then(post => {
+function onFormSubmit(e) {
+  e.preventDefault();
+  const inputTitle = form.elements.title;
+  const inputText = form.elements.body;
+  const newPostObj = newPost(inputTitle, inputText);
+
+  http.postPost(newPostObj).then(post => {
     const newPost = templateItem(post);
     containerPosts.insertAdjacentElement("afterbegin", newPost);
   });
   form.reset();
 }
-// function onDelete(id) {
-//     const el = document.getElementById(id);
-//     postsService(url + '/' + id, 'DELETE')
-//         .then(post => {
-//             el.remove(post);
-//         });
-// }
+
 function onDelete(id) {
   const el = document.getElementById(id);
-  httpService.delPost(id).then(post => el.remove(post));
+  http.delPost(id).then(post => el.remove(post));
 }
-// function updatePost(id) {
 
-//     const el = document.getElementById(id);
-//     const inputTitle = el.querySelector('#inputTitle');
-//     const inputText = el.querySelector('#inputBody');
-
-//     if (!inputTitle || !inputText) {
-//         return;
-//     }
-//     const chengedPostObj = createNewPost(
-//         inputTitle.value,
-//         inputText.value
-//     );
-
-//     postsService(url + '/' + id, 'PUT', JSON.stringify(chengedPostObj))
-//         .then(post => {
-//             const newPost = templateItem(post);
-//             containerPosts.replaceChild(newPost, el);
-//         });
-
-// }
 function updatePost(id) {
   const el = document.getElementById(id);
   const inputTitle = el.querySelector("#inputTitle");
   const inputText = el.querySelector("#inputBody");
+  const changedPostObj = newPost(inputTitle, inputText);
 
-  if (!inputTitle || !inputText || !inputTitle.value || !inputText.value) {
+  if (!changedPostObj) {
     return;
   }
-  const changedPostObj = createNewPost(inputTitle.value, inputText.value);
-
-  httpService.putPost(id, changedPostObj).then(post => {
+  http.putPost(id, changedPostObj).then(post => {
     const newPost = templateItem(post);
     containerPosts.replaceChild(newPost, el);
   });
