@@ -1,36 +1,37 @@
 const containerPosts = document.querySelector(".container-posts");
 const url = "https://jsonplaceholder.typicode.com/posts";
+const headers = {
+  "Content-type": "application/json; charset=UTF-8"
+};
 const form = document.forms.addPost;
 form.addEventListener("submit", onFormSubmit);
 containerPosts.addEventListener("click", containerBtnHandler);
 
 const http = {
-  getPost: async function () {
+  getPosts: async function (cb) {
     try {
       const response = await fetch(url);
       const data = await response.json();
-      return data;
+      cb(data);
     } catch (err) {
       throw new Error('error' + response.statusText);
     }
   },
-  delPost: async function (id) {
+  deletePost: async function (id) {
     try {
-      const response = await fetch(url + "/" + id);
+      const response = await fetch(`${url}/${id}`);
       const data = await response.json();
       return data;
     } catch (err) {
       throw new Error('error' + response.statusText);
     }
   },
-  postPost: async function (data) {
+  createPost: async function (data) {
     try {
       const response = await fetch(url, {
         method: "POST",
         body: JSON.stringify(data),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
+        headers: headers
       });
       const json = await response.json();
       return json;
@@ -40,12 +41,10 @@ const http = {
   },
   putPost: async function (id, data) {
     try {
-      const response = await fetch(url + "/" + id, {
+      const response = await fetch(`${url}/${id}`, {
         method: "PUT",
         body: JSON.stringify(data),
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
+        headers: headers
       });
       const json = await response.json();
       return json;
@@ -55,7 +54,7 @@ const http = {
   }
 };
 
-http.getPost().then(post => renderPosts(post));
+http.getPosts(renderPosts);
 
 function renderPosts(response) {
   const postList = response;
@@ -83,7 +82,7 @@ function templateItem(item) {
   return li;
 }
 
-function createNewPost(title, body) {
+function newPostTemplate(title, body) {
   const postObj = {
     id: Math.random()
       .toString()
@@ -94,11 +93,11 @@ function createNewPost(title, body) {
   return postObj;
 }
 
-function newPost(inputTitle, inputText) {
+function validatePost(inputTitle, inputText) {
   if (!inputTitle || !inputText || !inputTitle.value || !inputText.value) {
     return;
   }
-  const newPostObj = createNewPost(inputTitle.value, inputText.value);
+  const newPostObj = newPostTemplate(inputTitle.value, inputText.value);
   return newPostObj;
 }
 
@@ -106,9 +105,9 @@ function onFormSubmit(e) {
   e.preventDefault();
   const inputTitle = form.elements.title;
   const inputText = form.elements.body;
-  const newPostObj = newPost(inputTitle, inputText);
+  const newPostObj = validatePost(inputTitle, inputText);
 
-  http.postPost(newPostObj).then(post => {
+  http.createPost(newPostObj).then(post => {
     const newPost = templateItem(post);
     containerPosts.insertAdjacentElement("afterbegin", newPost);
   });
@@ -117,14 +116,14 @@ function onFormSubmit(e) {
 
 function onDelete(id) {
   const el = document.getElementById(id);
-  http.delPost(id).then(post => el.remove(post));
+  http.deletePost(id).then(post => el.remove(post));
 }
 
 function updatePost(id) {
   const el = document.getElementById(id);
   const inputTitle = el.querySelector("#inputTitle");
   const inputText = el.querySelector("#inputBody");
-  const changedPostObj = newPost(inputTitle, inputText);
+  const changedPostObj = validatePost(inputTitle, inputText);
 
   if (!changedPostObj) {
     return;
