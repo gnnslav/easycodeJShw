@@ -116,7 +116,7 @@ class User {
     }
 
     getInfo() {
-        return `name: ${this.name}, geristration: ${this.dateOfRegistration.toLocaleString()}`;
+        return `name: ${this.name}, geristration: ${this.dateOfRegistration.toLocaleDateString()}`;
     }
 
 }
@@ -126,7 +126,7 @@ const user = new User('User');
 class Admin extends User {
     constructor(name) {
         super(name);
-        this.superAdmin = true;
+        this._superAdmin = true;
     }
 
     getInfo() {
