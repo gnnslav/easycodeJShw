@@ -130,7 +130,7 @@ class Admin extends User {
     }
 
     getInfo() {
-        return `${super.getInfo(this)}, superAdmin: ${this.superAdmin}`;
+        return `${super.getInfo(this)}, superAdmin: ${this._superAdmin}`;
     }
 }
 const admin = new Admin('superadmin');
