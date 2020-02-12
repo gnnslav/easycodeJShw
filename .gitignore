@@ -1,2 +1,5 @@
 .jshintrc
+hw8/node_modules
+hw8/package-lock.json
+
 
