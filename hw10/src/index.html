@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="page-wrapp d-flex">
+    <div class="form-wrap ">
+      <ul class="nav nav-tabs nav-justified tabs m-auto">
+        <li class="nav-item p-2 active" data-tab="login">Log In</li>
+        <li class="nav-item p-2" data-tab="signup">Sign Up</li>
+      </ul>
+      <div class="form-card card m-auto tab-content" >
+        <div class="card-body tab-pane show active" data-tab="login">
+          <h4 class="card-title">Please Log In</h4>
+          <form name="loginForm" class="loginForm">
+            <div class="form-group row">
+              <label for="email" class="col-sm-4 col-form-label">Email address</label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control" id="login-email" aria-describedby="emailHelp"
+                  placeholder="Enter email" data-required="email"
+                  data-invalid-message="Please provide valid email example@example.com" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="password" class="col-sm-4 col-form-label">Password</label>
+              <div class="col-sm-8">
+                <input type="password" class="form-control" id="login-password" placeholder="Password"
+                  data-required="password" />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+        <div class="card-body tab-pane show" data-tab="signup">
+          <h4 class="card-title">Please Sign Up</h4>
+          <form name="signupForm" class="signupForm">
+            <div class="form-group row">
+              <label for="email" class="col-sm-4 col-form-label">Email address</label>
+              <div class="col-sm-8">
+                <input type="email" class="form-control" id="signupEmail" aria-describedby="emailHelp"
+                  placeholder="Enter email" data-required="email"
+                  data-invalid-message="Please provide valid email example@example.com" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="password" class="col-sm-4 col-form-label">Password</label>
+              <div class="col-sm-8">
+                <input type="password" class="form-control" id="signupPassword" placeholder="Password"
+                  data-required="password" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="nickname" class="col-sm-4 col-form-label">Nickname</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="nickname" placeholder="Nickname" data-required="nickname" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="first-name" class="col-sm-4 col-form-label">First-name</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="first-name" placeholder="First-name"
+                  data-required="firstName" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="last-name" class="col-sm-4 col-form-label">Last-name</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="last-name" placeholder="Last-name"
+                  data-required="lastName" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="phone" class="col-sm-4 col-form-label">Your phone</label>
+              <div class="col-sm-8">
+                <input type="tel" class="form-control" id="phone" placeholder="Your phone" data-required="phone" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="gender" class="col-sm-4 col-form-label">Gender orientation</label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" id="gender" placeholder="Gender orientation" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="city" class="col-sm-4 col-form-label">Your city</label>
+              <div class="col-sm-8">
+                <input type="search" class="form-control" id="city" placeholder="Your city" disabled/>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="country" class="col-sm-4 col-form-label">Your country</label>
+              <div class="col-sm-8 ">
+                <input type="search" class="form-control" id="country" placeholder="Your country" />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="birthday" class="col-sm-4 col-form-label">Your date of bithday</label>
+              <div class="col-sm-8">
+                <input type="date" class="form-control" id="birthday" placeholder="Your date of bithday" />
+              </div>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.login-form-wrap -->
+    <!-- <div class="login-greeting-screen d-flex align-items-center">
+      <div class="login-greeting-screen-text">
+        <h1 class="login-greeting-screen-title">Welcome to my app</h1>
+        <p class="login-greeting-screen-description">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores
+          inventore non accusantium earum, illo dolores reprehenderit laborum
+          ratione quos doloribus repellat eligendi deleniti. Ipsum voluptate
+          ipsa exercitationem eaque totam. A.
+        </p>
+      </div>
+    </div> -->
+    <!-- /.login-greeting-screen -->
+  </div>
+  <!-- /.login-page-wrapp -->
+</body>
+
+</html>
