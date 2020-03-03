@@ -1,0 +1,58 @@
+.page-wrapp {
+  height: 100vh;
+}
+
+.form-wrap {
+  width: 100%;
+}
+
+.form-wrap .form-card,
+.form-wrap .tabs {
+  max-width: 900px;
+  width: 50%;
+}
+
+.form-wrap .form-card .card-title {
+  color: var(--gray);
+}
+
+.login-greeting-screen {
+  background: var(--teal);
+  width: 90%;
+  padding: 20px;
+}
+
+.login-greeting-screen .login-greeting-screen-text {
+  max-width: 500px;
+}
+
+.login-greeting-screen .login-greeting-screen-text {
+  color: var(--white);
+}
+
+.login-greeting-screen .login-greeting-screen-title {
+  margin-bottom: 30px;
+  text-transform: capitalize;
+}
+
+.login-greeting-screen .login-greeting-screen-description {
+  line-height: 1.4;
+}
+
+/* .autocomplete {
+  position: relative;
+} */
+
+.autocomplete-items {
+  position: absolute;
+  width: 100%;
+  z-index: 99999;
+  background-color: #f8f9fa;
+}
+
+.autocomplete-item {
+  cursor: pointer;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ced4da;
+}
+
