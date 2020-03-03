@@ -1,5 +1,3 @@
-const config = {
-    apiUrl: 'https://mlp-demo.herokuapp.com/api/public',
-};
+const API_URL = 'https://mlp-demo.herokuapp.com/api/public';
 
-export default config;
+export default API_URL;

@@ -1,15 +1,13 @@
 import axios from '../plugins/axios';
-import config from '../config/api.config';
+import API_URL from '../config/api.config';
 
 class Api {
-    constructor() {
-        this.url = config.apiUrl;
-    }
+  
 
     async countries() {
         try {
             const response = await axios.get(`/location/get-countries`);
-            console.log(response);
+            
             return response;
 
         } catch (err) {
@@ -20,7 +18,7 @@ class Api {
     async cities(country_index) {
         try {
             const response = await axios.get(`/location/get-cities/${country_index}`);
-            console.log(response);
+            
             return response;
 
         } catch (err) {
@@ -45,7 +43,7 @@ class Api {
                 date_of_birth_month,
                 date_of_birth_year
             }));
-            console.log(response);
+
             return response;
 
         } catch (err) {
@@ -59,7 +57,7 @@ class Api {
                 email,
                 password,
             }));
-            console.log(response);
+
             return response;
 
         } catch (err) {

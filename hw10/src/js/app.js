@@ -34,8 +34,8 @@ tabItems.forEach((tab) => {
     });
 });
 inputCountry.addEventListener('input', onCompleteCountriesList);
-inputCity.addEventListener('focus', onCompleteCitiesList);
-inputGender.addEventListener('focus', onCompleteGenderList);
+inputCity.addEventListener('input', onCompleteCitiesList);
+inputGender.addEventListener('input', onCompleteGenderList);
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     onSubmitLoginForm();
@@ -57,24 +57,20 @@ async function onCompleteCountriesList() {
 
 async function onCompleteCitiesList() {
     const inputCountryValue = formUI.countryValue;
- 
+
     await location.initCities(inputCountryValue);
     inputCityAutocomplete.init(location.cities);
 }
 
 function validateForm(inputs) {
-    return Array.from(inputs).every((el) => {
-        const isValidInput = validate(el);
-        if (!isValidInput) {
-            inputError.showInputError(el);
-        }
-        return isValidInput;
-    });
+    return Array.from(inputs).every((el) => (!validate(el) ? inputError.showInputError(el) : true));
 
 }
+
 async function onSubmitLoginForm() {
     const inputs = document.querySelectorAll('.loginForm [data-required]');
-   const isValidLoginForm = validateForm(inputs);
+    const isValidLoginForm = validateForm(inputs);
+    console.log(isValidLoginForm);
 
     if (!isValidLoginForm) return;
 
@@ -93,10 +89,10 @@ async function onSubmitLoginForm() {
 async function onSubmitSignupForm() {
     const inputs = document.querySelectorAll('.signupForm [data-required]');
     const isValidSignupForm = validateForm(inputs);
- 
+
     if (!isValidSignupForm) return;
 
-    
+
     const email = formUI.inputsValueForValidate.email;
     const password = formUI.inputsValueForValidate.password;
     const nickname = formUI.inputsValueForValidate.nickname;
@@ -124,4 +120,3 @@ inputs.forEach((el) => {
         inputError.removeInputError(el);
     });
 });
-

@@ -1,9 +1,9 @@
 import axios from 'axios';
-import config from '../../config/api.config';
+import API_URL from '../../config/api.config';
 import interceptors from './interceptors';
 
 const instance = axios.create({
-    baseURL: config.apiUrl,
+    baseURL: API_URL,
     headers: {
         'Content-Type': 'application/json',
     }
